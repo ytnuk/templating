@@ -2,16 +2,16 @@
 
 namespace WebEdit\Templating;
 
-use WebEdit\Reflection;
 use Nette\Application\UI;
 
 final class Template extends UI\PresenterComponent implements \Iterator {
 
     private $view;
-    private $templates = [];
+    private $reflection;
+    private $appDir;
 
     public function __construct($view) {
-        $this->view = $view == 'layout' ? '@' . $view : $view;
+        $this->view = $view === 'layout' ? '@' . $view : $view;
     }
 
     public function __toString() {
@@ -19,38 +19,37 @@ final class Template extends UI\PresenterComponent implements \Iterator {
         return $this->current();
     }
 
-    public function rewind() { //TODO
-        if (!$this->templates) {
-            $reflection = new Reflection($this->parent->parent);
-            $local = $this->presenter->context->parameters['appDir'] . '/src';
-            do {
-                $localTemplate = $local . '/' . $reflection->getModuleName($reflection->getShortName() . '/' . $this->view . '.latte', '/', FALSE);
-                $path = pathinfo($reflection->getFileName());
-                $template = $path['dirname'] . '/' . $path['filename'] . '/' . $this->view . '.latte';
-                if (file_exists($localTemplate)) {
-                    $this->templates[] = $localTemplate;
-                } elseif (file_exists($template)) {
-                    $this->templates[] = $template;
-                }
-            } while ($reflection = $reflection->getParentClass());
+    public function rewind() {
+        if (!$this->reflection || $this->view !== '@layout') {
+            $this->reflection = $this->parent->parent->getReflection();
         }
-        return reset($this->templates);
+        $this->appDir = $this->presenter->context->parameters['appDir'];
     }
 
     public function current() {
-        return array_shift($this->templates);
+        do {
+            $file = '/' . $this->view . '.latte';
+            $localTemplate = $this->appDir . '/src/' . str_replace('\\', '/', $this->reflection->getName()) . $file;
+            $template = dirname($this->reflection->getFileName()) . '/' . $this->reflection->getShortName() . $file;
+            $this->reflection = $this->reflection->getParentClass();
+            if (file_exists($localTemplate)) {
+                return $localTemplate;
+            } elseif (file_exists($template)) {
+                return $template;
+            }
+        } while ($this->valid());
     }
 
     public function key() {
-        return key($this->templates);
+        
     }
 
     public function next() {
-        return next($this->templates);
+        
     }
 
     public function valid() {
-        return $this->key() !== NULL;
+        return $this->reflection;
     }
 
 }
