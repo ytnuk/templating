@@ -5,25 +5,10 @@ namespace WebEdit\Templating;
 use WebEdit\Bootstrap;
 use WebEdit\Templating;
 
-final class Extension extends Bootstrap\Extension {
-
-    private $resources = [
-        'filters' => []
-    ];
+final class Extension extends Bootstrap\Extension implements Templating\Provider {
 
     public function beforeCompile() {
-        $this->loadResources();
         $this->setupFilters();
-    }
-
-    private function loadResources() {
-        $this->resources = $this->getConfig($this->resources);
-        foreach ($this->compiler->getExtensions() as $extension) {
-            if (!$extension instanceof Templating\Provider) {
-                continue;
-            }
-            $this->resources = array_merge_recursive($this->resources, $extension->getTemplatingResources());
-        }
     }
 
     private function setupFilters() {
@@ -32,6 +17,12 @@ final class Extension extends Bootstrap\Extension {
         foreach ($this->resources['filters'] as $name => $filter) {
             $latteFactory->addSetup('addFilter', [$name, $filter]);
         }
+    }
+
+    public function getTemplatingResources() {
+        return [
+            'filters' => []
+        ];
     }
 
 }
