@@ -1,5 +1,9 @@
 {
     "name": "webedit/templating",
+    "type": "webedit-module",
+    "extra": {
+        "extension": "WebEdit\\Templating\\Extension"
+    },
     "require": {
         "webedit/bootstrap": "dev-master",
         "nette/application": "dev-master"
