@@ -2,7 +2,9 @@
     "name": "webedit/templating",
     "type": "webedit-module",
     "extra": {
-        "extension": "WebEdit\\Templating\\Extension"
+        "extensions": {
+            "templating": "WebEdit\\Templating\\Extension"
+        }
     },
     "require": {
         "webedit/bootstrap": "dev-master",
