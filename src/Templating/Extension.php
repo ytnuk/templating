@@ -2,10 +2,10 @@
 
 namespace WebEdit\Templating;
 
-use WebEdit\Bootstrap;
+use WebEdit\Module;
 use WebEdit\Templating;
 
-final class Extension extends Bootstrap\Extension implements Templating\Provider {
+final class Extension extends Module\Extension implements Templating\Provider {
 
     public function beforeCompile() {
         $this->setupFilters();

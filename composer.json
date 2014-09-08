@@ -7,7 +7,7 @@
         }
     },
     "require": {
-        "webedit/bootstrap": "dev-master",
+        "webedit/module": "dev-master",
         "nette/application": "dev-master"
     },
     "autoload": {
