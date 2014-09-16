@@ -2,54 +2,73 @@
 
 namespace WebEdit\Templating;
 
-use Nette\Application\UI;
+use Nette\ComponentModel;
+use ReflectionClass;
+use WebEdit\Application;
 
-final class Template extends UI\PresenterComponent implements \Iterator {
+/**
+ * @property-read Application\Control\Multiplier $parent
+ */
+final class Template extends ComponentModel\Component implements \Iterator
+{
 
     private $view;
+    private $templates;
+    /**
+     * @var ReflectionClass
+     */
     private $reflection;
-    private $appDir;
 
-    public function __construct($view) {
+    public function __construct($view, $templates)
+    {
         $this->view = $view === 'layout' ? '@' . $view : $view;
+        $this->templates = $templates;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         $this->rewind();
         return $this->current();
     }
 
-    public function rewind() {
+    public function rewind()
+    {
         if (!$this->reflection || $this->view !== '@layout') {
             $this->reflection = $this->parent->parent->getReflection();
         }
-        $this->appDir = $this->presenter->context->parameters['appDir'];
     }
 
-    public function current() {
+    public function current()
+    {
         do {
-            $file = '/' . $this->view . '.latte';
-            $localTemplate = $this->appDir . '/src/' . str_replace('\\', '/', $this->reflection->getName()) . $file;
-            $template = dirname($this->reflection->getFileName()) . '/' . $this->reflection->getShortName() . $file;
+            $templates = array_map(function ($template) {
+                return $template . '/' . str_replace('\\', '/', $this->reflection->getName());
+            }, $this->templates);
+            $templates[] = dirname($this->reflection->getFileName()) . '/' . $this->reflection->getShortName();
             $this->reflection = $this->reflection->getParentClass();
-            if (file_exists($localTemplate)) {
-                return $localTemplate;
-            } elseif (file_exists($template)) {
-                return $template;
+            $file = '/' . $this->view . '.latte';
+            foreach ($templates as $template) {
+                if (file_exists($template . $file)) {
+                    return $template . $file;
+                }
             }
         } while ($this->valid());
+        return NULL;
     }
 
-    public function key() {
-        
-    }
-
-    public function next() {
-        
-    }
-
-    public function valid() {
+    public function valid()
+    {
         return $this->reflection;
+    }
+
+    public function key()
+    {
+
+    }
+
+    public function next()
+    {
+
     }
 
 }

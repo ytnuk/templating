@@ -2,7 +2,8 @@
 
 namespace WebEdit\Templating;
 
-interface Provider {
+interface Provider
+{
 
     public function getTemplatingResources();
 }
