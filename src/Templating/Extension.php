@@ -2,6 +2,8 @@
 
 namespace WebEdit\Templating;
 
+use Latte;
+use Nette\Bridges;
 use WebEdit\Application;
 use WebEdit\Module;
 use WebEdit\Templating;
@@ -9,13 +11,11 @@ use WebEdit\Templating;
 final class Extension extends Module\Extension implements Application\Provider
 {
 
-    public function getTemplatingResources()
+    public function getResources()
     {
         return [
             'filters' => [],
-            'templates' => [
-                $this->getContainerBuilder()->expand('%appDir%/templates')
-            ]
+            'templates' => []
         ];
     }
 
@@ -26,30 +26,30 @@ final class Extension extends Module\Extension implements Application\Provider
                 'components' => [
                     'template' => [
                         'class' => Templating\Template\Factory::class,
-                        'arguments' => [$this->resources['templates']]
                     ]
                 ]
             ],
             'services' => [
-                'Nette\Bridges\ApplicationLatte\TemplateFactory'
+                'Nette\Bridges\ApplicationLatte\TemplateFactory',
+                'nette.latteFactory' => [
+                    'class' => Latte\Engine::class,
+                    'implement' => Bridges\ApplicationLatte\ILatteFactory::class,
+                    'setup' => [
+                        'setTempDirectory' => [$this->getContainerBuilder()->expand('%tempDir%/cache/latte')],
+                        'setAutoRefresh' => [$this->getContainerBuilder()->expand('%debugMode%')]
+                    ]
+                ]
             ]
         ];
     }
 
-    protected function startup()
+    public function beforeCompile()
     {
-        $this->setupLatte();
-    }
-
-    private function setupLatte()
-    {
+        $this->getContainerBuilder()->getDefinition('template')
+            ->setArguments([$this['templates']]);
         $builder = $this->getContainerBuilder();
-        $latte = $builder->addDefinition('nette.latteFactory')
-            ->setClass('Latte\Engine')
-            ->addSetup('setTempDirectory', [$builder->expand('%tempDir%/cache/latte')])
-            ->addSetup('setAutoRefresh', [$builder->expand('%debugMode%')])
-            ->setImplement('Nette\Bridges\ApplicationLatte\ILatteFactory');
-        foreach ($this->resources['filters'] as $name => $filter) {
+        $latte = $builder->getDefinition('nette.latteFactory');
+        foreach ($this['filters'] as $name => $filter) {
             $latte->addSetup('addFilter', [$name, $filter]);
         }
     }
