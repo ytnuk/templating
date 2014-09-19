@@ -30,7 +30,7 @@ final class Extension extends Module\Extension implements Application\Provider
                 ]
             ],
             'services' => [
-                'Nette\Bridges\ApplicationLatte\TemplateFactory',
+                Bridges\ApplicationLatte\TemplateFactory::class,
                 'nette.latteFactory' => [
                     'class' => Latte\Engine::class,
                     'implement' => Bridges\ApplicationLatte\ILatteFactory::class,
@@ -45,9 +45,9 @@ final class Extension extends Module\Extension implements Application\Provider
 
     public function beforeCompile()
     {
-        $this->getContainerBuilder()->getDefinition('template')
-            ->setArguments([$this['templates']]);
         $builder = $this->getContainerBuilder();
+        $builder->getDefinition('template')
+            ->setArguments([$this['templates']]);
         $latte = $builder->getDefinition('nette.latteFactory');
         foreach ($this['filters'] as $name => $filter) {
             $latte->addSetup('addFilter', [$name, $filter]);
