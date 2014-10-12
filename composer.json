@@ -1,19 +1,19 @@
 {
-    "name": "webedit/templating",
-    "type": "webedit-module",
-    "extra": {
-        "extensions": {
-            "templating": "WebEdit\\Templating\\Extension"
-        }
-    },
-    "require": {
-        "webedit/module": "dev-master",
-        "webedit/application": "dev-master",
-        "nette/component-model": "dev-master"
-    },
-    "autoload": {
-        "psr-4": {
-            "WebEdit\\": "src/"
-        }
+  "name": "webedit/templating",
+  "type": "webedit-module",
+  "extra": {
+    "extensions": {
+      "templating": "WebEdit\\Templating\\Extension"
     }
+  },
+  "require": {
+    "webedit/module": "dev-master",
+    "webedit/application": "dev-master",
+    "nette/component-model": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "WebEdit\\": "src/"
+    }
+  }
 }
