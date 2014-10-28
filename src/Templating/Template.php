@@ -28,12 +28,13 @@ final class Template extends ComponentModel\Component implements \Iterator
 	public function __toString()
 	{
 		$this->rewind();
+
 		return $this->current();
 	}
 
 	public function rewind()
 	{
-		if (!$this->reflection || $this->view !== '@layout') {
+		if ( ! $this->reflection || $this->view !== '@layout') {
 			$this->reflection = $this->parent->parent->getReflection();
 		}
 	}
@@ -53,6 +54,7 @@ final class Template extends ComponentModel\Component implements \Iterator
 				}
 			}
 		} while ($this->valid());
+
 		return NULL;
 	}
 
@@ -63,12 +65,9 @@ final class Template extends ComponentModel\Component implements \Iterator
 
 	public function key()
 	{
-
 	}
 
 	public function next()
 	{
-
 	}
-
 }

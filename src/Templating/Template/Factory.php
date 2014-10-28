@@ -21,5 +21,4 @@ final class Factory
 			return new Templating\Template($view, $this->templates);
 		});
 	}
-
 }
