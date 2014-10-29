@@ -7,29 +7,44 @@ use ReflectionClass;
 use WebEdit\Application;
 
 /**
- * @property-read Application\Control\Multiplier $parent
+ * Class Template
+ *
+ * @package WebEdit\Templating
  */
 final class Template extends ComponentModel\Component implements \Iterator
 {
 
+	/**
+	 * @var string
+	 */
 	private $view;
+	/**
+	 * @var array
+	 */
 	private $templates;
 	/**
 	 * @var ReflectionClass
 	 */
 	private $reflection;
 
-	public function __construct($view, $templates)
+	/**
+	 * @param string $view
+	 * @param array $templates
+	 */
+	public function __construct($view, array $templates)
 	{
 		$this->view = $view === 'layout' ? '@' . $view : $view;
 		$this->templates = $templates;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString()
 	{
 		$this->rewind();
 
-		return $this->current();
+		return (string) $this->current();
 	}
 
 	public function rewind()
@@ -39,6 +54,9 @@ final class Template extends ComponentModel\Component implements \Iterator
 		}
 	}
 
+	/**
+	 * @return string|NULL
+	 */
 	public function current()
 	{
 		do {
@@ -58,6 +76,9 @@ final class Template extends ComponentModel\Component implements \Iterator
 		return NULL;
 	}
 
+	/**
+	 * @return ReflectionClass
+	 */
 	public function valid()
 	{
 		return $this->reflection;

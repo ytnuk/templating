@@ -8,14 +8,25 @@ use WebEdit\Application;
 use WebEdit\Module;
 use WebEdit\Templating;
 
+/**
+ * Class Extension
+ *
+ * @package WebEdit\Templating
+ */
 final class Extension extends Module\Extension implements Application\Provider
 {
 
+	/**
+	 * @return array
+	 */
 	public function getResources()
 	{
 		return ['filters' => [], 'templates' => []];
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getApplicationResources()
 	{
 		return ['presenter' => ['components' => ['template' => ['class' => Templating\Template\Factory::class,]]], 'services' => [Bridges\ApplicationLatte\TemplateFactory::class, 'nette.latteFactory' => ['class' => Latte\Engine::class, 'implement' => Bridges\ApplicationLatte\ILatteFactory::class, 'setup' => ['setTempDirectory' => [$this->getContainerBuilder()->expand('%tempDir%/cache/latte')], 'setAutoRefresh' => [$this->getContainerBuilder()->expand('%debugMode%')]]]]];
