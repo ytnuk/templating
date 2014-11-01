@@ -2,10 +2,9 @@
 
 namespace WebEdit\Templating;
 
-use Latte;
-use Nette\Bridges;
+use Nette\DI;
 use WebEdit\Application;
-use WebEdit\Module;
+use WebEdit\Config;
 use WebEdit\Templating;
 
 /**
@@ -13,32 +12,36 @@ use WebEdit\Templating;
  *
  * @package WebEdit\Templating
  */
-final class Extension extends Module\Extension implements Application\Provider
+final class Extension extends DI\CompilerExtension implements Config\Provider
 {
 
 	/**
-	 * @return array
+	 * @var array
 	 */
-	public function getResources()
-	{
-		return ['filters' => [], 'templates' => []];
-	}
+	private $defaults = [
+		'templates' => []
+	];
 
 	/**
 	 * @return array
 	 */
-	public function getApplicationResources()
+	public function getConfigResources()
 	{
-		return ['presenter' => ['components' => ['template' => ['class' => Templating\Template\Factory::class,]]], 'services' => [Bridges\ApplicationLatte\TemplateFactory::class, 'nette.latteFactory' => ['class' => Latte\Engine::class, 'implement' => Bridges\ApplicationLatte\ILatteFactory::class, 'setup' => ['setTempDirectory' => [$this->getContainerBuilder()->expand('%tempDir%/cache/latte')], 'setAutoRefresh' => [$this->getContainerBuilder()->expand('%debugMode%')]]]]];
+		return [
+			'services' => [
+				'template' => [
+					'class' => Templating\Template\Factory::class,
+					'tags' => [Application\Extension::COMPONENT_TAG]
+				]
+			]
+		];
 	}
 
 	public function beforeCompile()
 	{
+		$config = $this->getConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
-		$builder->getDefinition('template')->setArguments([$this['templates']]);
-		$latte = $builder->getDefinition('nette.latteFactory');
-		foreach ($this['filters'] as $name => $filter) {
-			$latte->addSetup('addFilter', [$name, $filter]);
-		}
+		$builder->getDefinition('template')
+			->setArguments([$config['templates']]);
 	}
 }
