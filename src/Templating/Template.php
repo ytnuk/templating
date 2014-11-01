@@ -18,10 +18,12 @@ final class Template extends ComponentModel\Component implements \Iterator
 	 * @var string
 	 */
 	private $view;
+
 	/**
 	 * @var array
 	 */
 	private $templates;
+
 	/**
 	 * @var ReflectionClass
 	 */
