@@ -5,7 +5,6 @@ namespace WebEdit\Templating;
 use Nette\DI;
 use WebEdit\Application;
 use WebEdit\Config;
-use WebEdit\Templating;
 
 /**
  * Class Extension
@@ -30,7 +29,7 @@ final class Extension extends DI\CompilerExtension implements Config\Provider
 		return [
 			'services' => [
 				'template' => [
-					'class' => Templating\Template\Factory::class,
+					'class' => Template\Factory::class,
 					'tags' => [Application\Extension::COMPONENT_TAG]
 				]
 			]
