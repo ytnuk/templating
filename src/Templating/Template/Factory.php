@@ -2,6 +2,7 @@
 
 namespace WebEdit\Templating\Template;
 
+use Nette;
 use WebEdit\Application;
 use WebEdit\Templating;
 
@@ -27,11 +28,11 @@ final class Factory
 	}
 
 	/**
-	 * @return Application\Control\Multiplier
+	 * @return Nette\Application\UI\Multiplier
 	 */
 	public function create()
 	{
-		return new Application\Control\Multiplier(function ($view) {
+		return new Nette\Application\UI\Multiplier(function ($view) {
 			return new Templating\Template($view, $this->templates);
 		});
 	}

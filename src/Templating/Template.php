@@ -63,7 +63,10 @@ final class Template extends ComponentModel\Component implements \Iterator
 	{
 		do {
 			$templates = array_map(function ($template) {
-				return $template . '/' . str_replace('\\', '/', $this->reflection->getName());
+				$namespace = explode('\\', $this->reflection->getName());
+				$namespace[key($namespace)] = $template;
+
+				return implode('/', $namespace);
 			}, $this->templates);
 			$templates[] = dirname($this->reflection->getFileName()) . '/' . $this->reflection->getShortName();
 			$this->reflection = $this->reflection->getParentClass();
