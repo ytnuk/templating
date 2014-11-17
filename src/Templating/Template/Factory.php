@@ -3,8 +3,7 @@
 namespace WebEdit\Templating\Template;
 
 use Nette;
-use WebEdit\Application;
-use WebEdit\Templating;
+use WebEdit;
 
 /**
  * Class Factory
@@ -33,7 +32,7 @@ final class Factory
 	public function create()
 	{
 		return new Nette\Application\UI\Multiplier(function ($view) {
-			return new Templating\Template($view, $this->templates);
+			return new WebEdit\Templating\Template($view, $this->templates);
 		});
 	}
 }

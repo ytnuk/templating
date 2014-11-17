@@ -2,16 +2,17 @@
 
 namespace WebEdit\Templating;
 
-use Nette\ComponentModel;
+use Iterator;
+use Nette;
 use ReflectionClass;
-use WebEdit\Application;
+use WebEdit;
 
 /**
  * Class Template
  *
  * @package WebEdit\Templating
  */
-final class Template extends ComponentModel\Component implements \Iterator
+final class Template extends Nette\ComponentModel\Component implements Iterator
 {
 
 	/**
