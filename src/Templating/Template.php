@@ -1,16 +1,16 @@
 <?php
 
-namespace Kutny\Templating;
+namespace Ytnuk\Templating;
 
 use Iterator;
 use Nette;
 use ReflectionClass;
-use Kutny;
+use Ytnuk;
 
 /**
  * Class Template
  *
- * @package Kutny\Templating
+ * @package Ytnuk\Templating
  */
 final class Template extends Nette\ComponentModel\Component implements Iterator
 {

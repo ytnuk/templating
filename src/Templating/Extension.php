@@ -1,16 +1,16 @@
 <?php
 
-namespace Kutny\Templating;
+namespace Ytnuk\Templating;
 
 use Nette;
-use Kutny;
+use Ytnuk;
 
 /**
  * Class Extension
  *
- * @package Kutny\Templating
+ * @package Ytnuk\Templating
  */
-final class Extension extends Nette\DI\CompilerExtension implements Kutny\Config\Provider
+final class Extension extends Nette\DI\CompilerExtension implements Ytnuk\Config\Provider
 {
 
 	/**
@@ -29,7 +29,7 @@ final class Extension extends Nette\DI\CompilerExtension implements Kutny\Config
 			'services' => [
 				'template' => [
 					'class' => Template\Factory::class,
-					'tags' => [Kutny\Application\Extension::COMPONENT_TAG]
+					'tags' => [Ytnuk\Application\Extension::COMPONENT_TAG]
 				]
 			]
 		];

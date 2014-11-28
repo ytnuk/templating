@@ -1,14 +1,14 @@
 <?php
 
-namespace Kutny\Templating\Template;
+namespace Ytnuk\Templating\Template;
 
 use Nette;
-use Kutny;
+use Ytnuk;
 
 /**
  * Class Factory
  *
- * @package Kutny\Templating
+ * @package Ytnuk\Templating
  */
 final class Factory
 {
@@ -32,7 +32,7 @@ final class Factory
 	public function create()
 	{
 		return new Nette\Application\UI\Multiplier(function ($view) {
-			return new Kutny\Templating\Template($view, $this->templates);
+			return new Ytnuk\Templating\Template($view, $this->templates);
 		});
 	}
 }
