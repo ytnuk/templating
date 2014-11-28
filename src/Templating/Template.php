@@ -1,16 +1,16 @@
 <?php
 
-namespace WebEdit\Templating;
+namespace Kutny\Templating;
 
 use Iterator;
 use Nette;
 use ReflectionClass;
-use WebEdit;
+use Kutny;
 
 /**
  * Class Template
  *
- * @package WebEdit\Templating
+ * @package Kutny\Templating
  */
 final class Template extends Nette\ComponentModel\Component implements Iterator
 {

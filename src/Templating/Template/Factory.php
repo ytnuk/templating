@@ -1,14 +1,14 @@
 <?php
 
-namespace WebEdit\Templating\Template;
+namespace Kutny\Templating\Template;
 
 use Nette;
-use WebEdit;
+use Kutny;
 
 /**
  * Class Factory
  *
- * @package WebEdit\Templating
+ * @package Kutny\Templating
  */
 final class Factory
 {
@@ -32,7 +32,7 @@ final class Factory
 	public function create()
 	{
 		return new Nette\Application\UI\Multiplier(function ($view) {
-			return new WebEdit\Templating\Template($view, $this->templates);
+			return new Kutny\Templating\Template($view, $this->templates);
 		});
 	}
 }

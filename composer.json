@@ -1,12 +1,12 @@
 {
-	"name": "webedit/templating",
+	"name": "kutny/templating",
 	"require": {
-		"webedit/application": "dev-master",
+		"kutny/application": "dev-master",
 		"nette/component-model": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
-			"WebEdit\\": "src/"
+			"Kutny\\": "src/"
 		}
 	}
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace WebEdit\Templating;
+namespace Kutny\Templating;
 
 use Nette;
-use WebEdit;
+use Kutny;
 
 /**
  * Class Extension
  *
- * @package WebEdit\Templating
+ * @package Kutny\Templating
  */
-final class Extension extends Nette\DI\CompilerExtension implements WebEdit\Config\Provider
+final class Extension extends Nette\DI\CompilerExtension implements Kutny\Config\Provider
 {
 
 	/**
@@ -29,7 +29,7 @@ final class Extension extends Nette\DI\CompilerExtension implements WebEdit\Conf
 			'services' => [
 				'template' => [
 					'class' => Template\Factory::class,
-					'tags' => [WebEdit\Application\Extension::COMPONENT_TAG]
+					'tags' => [Kutny\Application\Extension::COMPONENT_TAG]
 				]
 			]
 		];
