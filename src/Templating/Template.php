@@ -79,7 +79,7 @@ final class Template extends Nette\ComponentModel\Component implements Iterator
 			}
 		} while ($this->valid());
 
-		return NULL;
+		return FALSE;
 	}
 
 	/**
