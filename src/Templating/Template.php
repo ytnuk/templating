@@ -53,9 +53,7 @@ final class Template extends Nette\ComponentModel\Component implements Iterator
 	public function rewind()
 	{
 		if ( ! $this->reflection || $this->view !== '@layout') {
-			$this->reflection = $this->getParent()
-				->getParent()
-				->getReflection();
+			$this->reflection = $this->getParent()->getParent()->getReflection();
 		}
 	}
 

@@ -39,7 +39,6 @@ final class Extension extends Nette\DI\CompilerExtension implements Ytnuk\Config
 	{
 		$config = $this->getConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
-		$builder->getDefinition($builder->getByType(Template\Factory::class))
-			->setArguments([$config['templates']]);
+		$builder->getDefinition($builder->getByType(Template\Factory::class))->setArguments([$config['templates']]);
 	}
 }
