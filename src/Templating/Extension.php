@@ -21,7 +21,7 @@ final class Extension extends Nette\DI\CompilerExtension implements Ytnuk\Config
 	];
 
 	/**
-	 * @return array
+	 * @inheritdoc
 	 */
 	public function getConfigResources()
 	{
@@ -35,6 +35,9 @@ final class Extension extends Nette\DI\CompilerExtension implements Ytnuk\Config
 		];
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function beforeCompile()
 	{
 		$config = $this->getConfig($this->defaults);
