@@ -27,7 +27,7 @@ final class Extension extends Nette\DI\CompilerExtension implements Ytnuk\Config
 	{
 		return [
 			'services' => [
-				Template::class => [
+				[
 					'class' => Template\Factory::class,
 					'tags' => [Ytnuk\Application\Extension::COMPONENT_TAG]
 				]
