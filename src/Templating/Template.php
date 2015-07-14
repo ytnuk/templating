@@ -1,5 +1,4 @@
 <?php
-
 namespace Ytnuk\Templating;
 
 use Iterator;
@@ -178,6 +177,6 @@ final class Template extends Nette\ComponentModel\Component implements Iterator,
 	public function unserialize($serialized)
 	{
 		list($this->view, $this->templates, $this->class, $reflection) = json_decode($serialized);
-		$this->reflection = $reflection ? new ReflectionClass($reflection) : $reflection;
+		$this->reflection = $reflection ? new ReflectionClass($this->class) : $reflection;
 	}
 }
