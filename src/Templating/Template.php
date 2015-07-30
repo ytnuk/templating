@@ -1,10 +1,11 @@
 <?php
 namespace Ytnuk\Templating;
 
+use Countable;
 use Iterator;
-use Serializable;
 use Nette;
 use ReflectionClass;
+use Serializable;
 use Ytnuk;
 
 /**
@@ -12,7 +13,9 @@ use Ytnuk;
  *
  * @package Ytnuk\Templating
  */
-final class Template extends Nette\ComponentModel\Component implements Iterator, Serializable
+final class Template
+	extends Nette\ComponentModel\Component
+	implements Iterator, Serializable, Countable
 {
 
 	/**
@@ -50,8 +53,12 @@ final class Template extends Nette\ComponentModel\Component implements Iterator,
 	 * @param array $templates
 	 * @param string $class
 	 */
-	public function __construct($view, array $templates, $class)
-	{
+	public function __construct(
+		$view,
+		array $templates,
+		$class
+	) {
+		parent::__construct();
 		$this->view = $view;
 		$this->templates = $templates;
 		$this->class = $class;
@@ -89,22 +96,39 @@ final class Template extends Nette\ComponentModel\Component implements Iterator,
 	public function current()
 	{
 		if ($this->valid()) {
-			$templates = array_map(function ($template) {
-				$namespace = explode('\\', $this->reflection->getName());
-				$namespace[key($namespace)] = $template;
+			$templates = array_map(
+				function ($template) {
+					$namespace = explode(
+						'\\',
+						$this->reflection->getName()
+					);
+					$namespace[key($namespace)] = $template;
 
-				return implode(DIRECTORY_SEPARATOR, $namespace);
-			}, $this->templates);
-			$templates[] = implode(DIRECTORY_SEPARATOR, [
-				dirname($this->reflection->getFileName()),
-				$this->reflection->getShortName()
-			]);
+					return implode(
+						DIRECTORY_SEPARATOR,
+						$namespace
+					);
+				},
+				$this->templates
+			);
+			$templates[] = implode(
+				DIRECTORY_SEPARATOR,
+				[
+					dirname($this->reflection->getFileName()),
+					$this->reflection->getShortName(),
+				]
+			);
 			$file = $this->view . '.latte';
-			foreach ($templates as $template) {
-				$path = implode(DIRECTORY_SEPARATOR, [
-					$template,
-					$file
-				]);
+			foreach (
+				$templates as $template
+			) {
+				$path = implode(
+					DIRECTORY_SEPARATOR,
+					[
+						$template,
+						$file,
+					]
+				);
 				if (is_file($path)) {
 					return $path;
 				}
@@ -155,12 +179,14 @@ final class Template extends Nette\ComponentModel\Component implements Iterator,
 	 */
 	public function serialize()
 	{
-		return json_encode([
-			$this->view,
-			$this->templates,
-			$this->class,
-			$this->key()
-		]);
+		return json_encode(
+			[
+				$this->view,
+				$this->templates,
+				$this->class,
+				$this->key(),
+			]
+		);
 	}
 
 	/**
@@ -178,5 +204,14 @@ final class Template extends Nette\ComponentModel\Component implements Iterator,
 	{
 		list($this->view, $this->templates, $this->class, $reflection) = json_decode($serialized);
 		$this->reflection = $reflection ? new ReflectionClass($this->class) : $reflection;
+	}
+
+	public function count()
+	{
+		$serialized = $this->serialize();
+		$count = iterator_count($this);
+		$this->unserialize($serialized);
+
+		return $count;
 	}
 }

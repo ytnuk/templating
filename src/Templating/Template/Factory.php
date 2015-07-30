@@ -1,5 +1,4 @@
 <?php
-
 namespace Ytnuk\Templating\Template;
 
 use Nette;
@@ -31,8 +30,17 @@ final class Factory
 	 */
 	public function create()
 	{
-		return new Nette\Application\UI\Multiplier(function ($view, Nette\Application\UI\Multiplier $multiplier) {
-			return new Ytnuk\Templating\Template($view, $this->templates, get_class($multiplier->getParent()));
-		});
+		return new Nette\Application\UI\Multiplier(
+			function (
+				$view,
+				Nette\Application\UI\Multiplier $multiplier
+			) {
+				return new Ytnuk\Templating\Template(
+					$view,
+					$this->templates,
+					get_class($multiplier->getParent())
+				);
+			}
+		);
 	}
 }

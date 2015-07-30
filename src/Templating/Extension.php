@@ -1,5 +1,4 @@
 <?php
-
 namespace Ytnuk\Templating;
 
 use Nette;
@@ -10,14 +9,16 @@ use Ytnuk;
  *
  * @package Ytnuk\Templating
  */
-final class Extension extends Nette\DI\CompilerExtension implements Ytnuk\Config\Provider
+final class Extension
+	extends Nette\DI\CompilerExtension
+	implements Ytnuk\Config\Provider
 {
 
 	/**
 	 * @var array
 	 */
 	private $defaults = [
-		'templates' => []
+		'templates' => [],
 	];
 
 	/**
@@ -29,9 +30,9 @@ final class Extension extends Nette\DI\CompilerExtension implements Ytnuk\Config
 			'services' => [
 				[
 					'class' => Template\Factory::class,
-					'tags' => [Ytnuk\Application\Extension::COMPONENT_TAG]
-				]
-			]
+					'tags' => [Ytnuk\Application\Extension::COMPONENT_TAG],
+				],
+			],
 		];
 	}
 
