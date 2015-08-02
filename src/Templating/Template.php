@@ -206,6 +206,9 @@ final class Template
 		$this->reflection = $reflection ? new ReflectionClass($this->class) : $reflection;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	public function count()
 	{
 		$serialized = $this->serialize();
