@@ -8,11 +8,6 @@ use ReflectionClass;
 use Serializable;
 use Ytnuk;
 
-/**
- * Class Template
- *
- * @package Ytnuk\Templating
- */
 final class Template
 	extends Nette\ComponentModel\Component
 	implements Iterator, Serializable, Countable
@@ -48,15 +43,10 @@ final class Template
 	 */
 	private $disableRewind = FALSE;
 
-	/**
-	 * @param string $view
-	 * @param array $templates
-	 * @param string $class
-	 */
 	public function __construct(
-		$view,
+		string $view,
 		array $templates,
-		$class
+		string $class
 	) {
 		parent::__construct();
 		$this->view = $view;
@@ -64,21 +54,12 @@ final class Template
 		$this->class = $class;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	public function __toString() : string
 	{
-		return (string) $this->rewind();
+		return $this->rewind();
 	}
 
-	/**
-	 * @param bool $force
-	 *
-	 * @inheritdoc
-	 * @return string|NULL
-	 */
-	public function rewind($force = FALSE)
+	public function rewind(bool $force = FALSE) : string
 	{
 		if ($this->rewind || $force) {
 			$this->reflection = new ReflectionClass($this->class);
@@ -90,10 +71,7 @@ final class Template
 		}
 	}
 
-	/**
-	 * @return string|NULL
-	 */
-	public function current()
+	public function current() : string
 	{
 		if ($this->valid()) {
 			$templates = array_map(
@@ -135,21 +113,15 @@ final class Template
 			}
 		}
 
-		return NULL;
+		return (string) NULL;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function valid()
+	public function valid() : bool
 	{
 		return (bool) $this->reflection;
 	}
 
-	/**
-	 * @return string|NULL
-	 */
-	public function next()
+	public function next() : string
 	{
 		while ($this->valid() && $this->reflection = $this->reflection->getParentClass()) {
 			if ($current = $this->current()) {
@@ -157,15 +129,10 @@ final class Template
 			}
 		}
 
-		return NULL;
+		return (string) NULL;
 	}
 
-	/**
-	 * @param bool $disable
-	 *
-	 * @return $this
-	 */
-	public function disableRewind($disable = TRUE)
+	public function disableRewind(bool $disable = TRUE) : self
 	{
 		if ( ! $this->disableRewind = $disable) {
 			$this->rewind = ! $disable;
@@ -174,12 +141,9 @@ final class Template
 		return $this;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function serialize()
+	public function serialize() : string
 	{
-		return json_encode(
+		return serialize(
 			[
 				$this->view,
 				$this->templates,
@@ -189,27 +153,18 @@ final class Template
 		);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function key()
+	public function key() : string
 	{
-		return $this->valid() ? $this->reflection->getName() : NULL;
+		return $this->valid() ? $this->reflection->getName() : (string) NULL;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function unserialize($serialized)
 	{
-		list($this->view, $this->templates, $this->class, $reflection) = json_decode($serialized);
+		list($this->view, $this->templates, $this->class, $reflection) = unserialize($serialized);
 		$this->reflection = $reflection ? new ReflectionClass($this->class) : $reflection;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function count()
+	public function count() : int
 	{
 		$serialized = $this->serialize();
 		$count = iterator_count($this);

@@ -4,37 +4,27 @@ namespace Ytnuk\Templating\Template;
 use Nette;
 use Ytnuk;
 
-/**
- * Class Factory
- *
- * @package Ytnuk\Templating
- */
 final class Factory
+	implements Ytnuk\Application\Control\Factory
 {
 
 	/**
 	 * @var array
 	 */
-	private $templates;
+	private $templates = [];
 
-	/**
-	 * @param array $templates
-	 */
 	public function __construct(array $templates)
 	{
 		$this->templates = $templates;
 	}
 
-	/**
-	 * @return Nette\Application\UI\Multiplier
-	 */
-	public function create()
+	public function create() : Nette\Application\UI\Multiplier
 	{
 		return new Nette\Application\UI\Multiplier(
 			function (
 				$view,
 				Nette\Application\UI\Multiplier $multiplier
-			) {
+			) : Ytnuk\Templating\Template {
 				return new Ytnuk\Templating\Template(
 					$view,
 					$this->templates,

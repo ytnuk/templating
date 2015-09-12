@@ -4,11 +4,6 @@ namespace Ytnuk\Templating;
 use Nette;
 use Ytnuk;
 
-/**
- * Class Extension
- *
- * @package Ytnuk\Templating
- */
 final class Extension
 	extends Nette\DI\CompilerExtension
 	implements Ytnuk\Config\Provider
@@ -21,10 +16,7 @@ final class Extension
 		'templates' => [],
 	];
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getConfigResources()
+	public function getConfigResources() : array
 	{
 		return [
 			'services' => [
@@ -36,9 +28,6 @@ final class Extension
 		];
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function beforeCompile()
 	{
 		$config = $this->getConfig($this->defaults);
