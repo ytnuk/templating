@@ -20,10 +20,7 @@ final class Extension
 	{
 		return [
 			'services' => [
-				[
-					'class' => Template\Factory::class,
-					'tags' => [Ytnuk\Application\Extension::COMPONENT_TAG],
-				],
+				Control\Factory::class,
 			],
 		];
 	}
@@ -32,6 +29,6 @@ final class Extension
 	{
 		$config = $this->getConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
-		$builder->getDefinition($builder->getByType(Template\Factory::class))->setArguments([$config['templates']]);
+		$builder->getDefinition($builder->getByType(Control\Factory::class))->setArguments([$config['templates']]);
 	}
 }
