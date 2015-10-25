@@ -59,18 +59,6 @@ final class Template
 		return $this->rewind();
 	}
 
-	public function rewind(bool $force = FALSE) : string
-	{
-		if ($this->rewind || $force) {
-			$this->reflection = new ReflectionClass($this->class);
-			$this->rewind = ! $this->disableRewind;
-
-			return $this->current() ? : $this->next();
-		} else {
-			return $this->next();
-		}
-	}
-
 	public function current() : string
 	{
 		if ($this->valid()) {
@@ -116,9 +104,9 @@ final class Template
 		return (string) NULL;
 	}
 
-	public function valid() : bool
+	public function key() : string
 	{
-		return (bool) $this->reflection;
+		return $this->valid() ? $this->reflection->getName() : (string) NULL;
 	}
 
 	public function next() : string
@@ -130,6 +118,23 @@ final class Template
 		}
 
 		return (string) NULL;
+	}
+
+	public function rewind(bool $force = FALSE) : string
+	{
+		if ($this->rewind || $force) {
+			$this->reflection = new ReflectionClass($this->class);
+			$this->rewind = ! $this->disableRewind;
+
+			return $this->current() ? : $this->next();
+		} else {
+			return $this->next();
+		}
+	}
+
+	public function valid() : bool
+	{
+		return (bool) $this->reflection;
 	}
 
 	public function disableRewind(bool $disable = TRUE) : self
@@ -151,11 +156,6 @@ final class Template
 				$this->key(),
 			]
 		);
-	}
-
-	public function key() : string
-	{
-		return $this->valid() ? $this->reflection->getName() : (string) NULL;
 	}
 
 	public function unserialize($serialized)
