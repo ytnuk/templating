@@ -6,7 +6,6 @@ use Ytnuk;
 
 final class Extension
 	extends Nette\DI\CompilerExtension
-	implements Ytnuk\Config\Provider
 {
 
 	/**
@@ -16,19 +15,11 @@ final class Extension
 		'templates' => [],
 	];
 
-	public function getConfigResources() : array
+	public function loadConfiguration()
 	{
-		return [
-			'services' => [
-				Control\Factory::class,
-			],
-		];
-	}
-
-	public function beforeCompile()
-	{
-		$config = $this->getConfig($this->defaults);
+		parent::loadConfiguration();
+		$this->validateConfig($this->defaults);
 		$builder = $this->getContainerBuilder();
-		$builder->getDefinition($builder->getByType(Control\Factory::class))->setArguments([$config['templates']]);
+		$builder->addDefinition($this->prefix('control'))->setImplement(Control\Factory::class)->setArguments([$this->config['templates']]);
 	}
 }
