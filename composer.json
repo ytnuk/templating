@@ -1,5 +1,10 @@
 {
 	"name": "ytnuk/templating",
+	"extra": {
+		"extensions": {
+			"ytnuk/templating": "Ytnuk\\Templating\\Extension"
+		}
+	},
 	"require": {
 		"ytnuk/application": "dev-master",
 		"nette/component-model": "dev-master"
