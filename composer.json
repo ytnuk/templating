@@ -2,7 +2,7 @@
 	"name": "ytnuk/templating",
 	"extra": {
 		"extensions": {
-			"ytnuk/templating": "Ytnuk\\Templating\\Extension"
+			"ytnuk_templating": "Ytnuk\\Templating\\Extension"
 		}
 	},
 	"require": {
