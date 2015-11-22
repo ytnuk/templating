@@ -1,8 +1,6 @@
 {
 	"name": "ytnuk/templating",
-	"type": "ytnuk-module",
 	"require": {
-		"ytnuk/module": "dev-master",
 		"ytnuk/application": "dev-master",
 		"nette/component-model": "dev-master"
 	},
