@@ -8,8 +8,6 @@ final class Control
 	extends Nette\Application\UI\PresenterComponent
 {
 
-	const NAME = 'templating';
-
 	/**
 	 * @var array
 	 */
