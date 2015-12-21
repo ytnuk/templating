@@ -11,7 +11,7 @@ final class Control
 	/**
 	 * @var array
 	 */
-	public $templates;
+	private $templates;
 
 	public function __construct(array $templates = [])
 	{
