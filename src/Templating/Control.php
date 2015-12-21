@@ -19,6 +19,16 @@ final class Control
 		$this->templates = $templates;
 	}
 
+	public function getTemplates() : array
+	{
+		return $this->templates;
+	}
+
+	public function setTemplates(array $templates)
+	{
+		$this->templates = $templates;
+	}
+
 	protected function createComponent($name) : Nette\ComponentModel\IComponent
 	{
 		return new Template(
