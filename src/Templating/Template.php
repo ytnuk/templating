@@ -62,39 +62,24 @@ final class Template
 	public function current() : string
 	{
 		if ($this->valid()) {
-			$templates = array_map(
-				function ($template) {
-					$namespace = explode(
-						'\\',
-						$this->reflection->getName()
-					);
-					$namespace[key($namespace)] = $template;
+			$templates = array_map(function ($template) {
+				$namespace = explode('\\', $this->reflection->getName());
+				$namespace[key($namespace)] = $template;
 
-					return implode(
-						DIRECTORY_SEPARATOR,
-						$namespace
-					);
-				},
-				$this->templates
-			);
-			$templates[] = implode(
-				DIRECTORY_SEPARATOR,
-				[
-					dirname($this->reflection->getFileName()),
-					$this->reflection->getShortName(),
-				]
-			);
+				return implode(DIRECTORY_SEPARATOR, $namespace);
+			}, $this->templates);
+			$templates[] = implode(DIRECTORY_SEPARATOR, [
+				dirname($this->reflection->getFileName()),
+				$this->reflection->getShortName(),
+			]);
 			$file = $this->view . '.latte';
 			foreach (
 				$templates as $template
 			) {
-				$path = implode(
-					DIRECTORY_SEPARATOR,
-					[
-						$template,
-						$file,
-					]
-				);
+				$path = implode(DIRECTORY_SEPARATOR, [
+					$template,
+					$file,
+				]);
 				if (is_file($path)) {
 					return $path;
 				}
@@ -148,14 +133,12 @@ final class Template
 
 	public function serialize() : string
 	{
-		return serialize(
-			[
-				$this->view,
-				$this->templates,
-				$this->class,
-				$this->key(),
-			]
-		);
+		return serialize([
+			$this->view,
+			$this->templates,
+			$this->class,
+			$this->key(),
+		]);
 	}
 
 	public function unserialize($serialized)

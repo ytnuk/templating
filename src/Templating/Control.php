@@ -31,10 +31,6 @@ final class Control
 
 	protected function createComponent($name) : Nette\ComponentModel\IComponent
 	{
-		return new Template(
-			$name,
-			$this->templates,
-			get_class($this->getParent())
-		) ? : parent::createComponent($name);
+		return new Template($name, $this->templates, get_class($this->getParent())) ? : parent::createComponent($name);
 	}
 }
